@@ -1,39 +1,65 @@
-import { useContext } from 'react';
+import { useContext, useEffect } from 'react';
 
-import Header from '../../components/Banner/Banner';
+import { RiQuestionMark } from 'react-icons/ri';
+
+import Banner from '../../components/Banner/Banner';
+import Pager from '../../components/Pager/Pager';
 import TrackCard from '../../components/TrackCard/TrackCard';
 import { TracksContext } from '../../contexts/tracksContext/TracksContext';
+import { Text } from '../../shared/StylizedComponents';
 import * as S from './HomePageElements';
+
+const scroll = () => {
+  window.scroll({
+    top: 0,
+    behavior: 'smooth'
+  });
+};
 
 const HomePage = () => {
   const { testTracks, tracks } = useContext(TracksContext);
 
-  const isSearching: boolean = (tracks.length > 0);
+  const isSearching = Array.isArray(tracks);
+  const currentTracks = isSearching ? tracks : testTracks;
+
+  useEffect(() => {
+    scroll();
+  }, [tracks]);
 
   return (
-    <S.Container isSearching={isSearching}>
+    <S.Container withoutResults={(tracks?.length === 0)}>
       {
-        !isSearching && <Header />
+        !isSearching && <Banner />
       }
       {
-        !isSearching && testTracks.map(({ album, name, artists, id }) => (
-          <TrackCard
-            imageUrl={album.images[1].url}
-            trackTitle={name}
-            artistName={artists[0].name}
-            key={id}
-          />
-        ))
+        (isSearching && (tracks.length === 0)) && (
+          <>
+            <RiQuestionMark
+              size="10vh"
+              color="white"
+            />
+            <Text>Hmm, nada por aquí...</Text>
+          </>
+        )
       }
       {
-        tracks.map(({ album, name, artists, id }) => (
-          <TrackCard
-            imageUrl={album.images[1].url}
-            trackTitle={name}
-            artistName={artists[0].name}
-            key={id}
-          />
-        ))
+        (currentTracks.length > 0) && (
+          <S.ResultsContainer>
+            {
+              currentTracks.map(({ album, name, artists, id }) => (
+                <TrackCard
+                  imageUrl={album.images[1].url}
+                  trackTitle={name}
+                  artistName={artists[0].name}
+                  key={id}
+                />
+              ))
+            }
+          </S.ResultsContainer>
+        )
+      }
+      {
+        (tracks && tracks.length > 0) && <Pager />
       }
     </S.Container>
   );
