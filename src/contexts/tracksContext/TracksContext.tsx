@@ -4,29 +4,41 @@
 
 import { createContext, FC, useEffect, useRef, useState } from 'react';
 
-import { AxiosRequestConfig } from 'axios';
+import axios, { AxiosRequestConfig } from 'axios';
 
 import { spotifyAuthAPI, spotifyAPI } from '../../api/spotifyAPI';
 import testTracksIdentifiers from '../../data/testTracksIdentifiers';
 import { TrackResponse, TracksPaginatedResponse } from '../../interfaces/trackInterfaces';
 
 type TracksContextProps = {
-  tracks: TrackResponse[];
   testTracks: TrackResponse[];
-  getTrackList: (query: string) => void;
+  tracks: TrackResponse[] | null;
   searching: boolean;
+  pageData: PageUrls;
+  getTrackList: (query: string) => void;
+  changePage: (nextPage: string | null) => void;
+};
+
+type PageUrls = {
+  next: null | string;
+  previous: null | string;
+  current: number;
 };
 
 export const TracksContext = createContext({} as TracksContextProps);
 
 export const TracksProvider: FC = ({ children }) => {
   const token = useRef<string>('');
+  const pageData = useRef<PageUrls>({
+    next: '',
+    previous: '',
+    current: 1
+  });
 
-  const [tracks, setTracks] = useState<TrackResponse[]>([]);
+  const [tracks, setTracks] = useState<TrackResponse[] | null>(null);
   const [testTracks, setTestTracks] = useState<TrackResponse[]>([]);
   const [searching, setSearching] = useState(false);
 
-  // eslint-disable-next-line object-curly-newline
   const requestConfiguration: AxiosRequestConfig = {
     headers: { Authorization: `Bearer ${token.current}` },
     method: 'GET'
@@ -36,6 +48,7 @@ export const TracksProvider: FC = ({ children }) => {
     try {
       const { data: { access_token } } = await spotifyAuthAPI;
       token.current = access_token;
+      console.log('me ejecuto', access_token);
       getTestTracks();
     } catch (error) {
       console.log(error);
@@ -62,16 +75,10 @@ export const TracksProvider: FC = ({ children }) => {
   const getTrackList = async (query: string) => {
     setSearching(true);
 
-    if (query.length === 0) {
-      setTracks([]);
-      return;
-    };
-
     try {
       const formatedQuery: string = encodeURI(query).replace(/%20/g, '+');
 
-      const { data: { tracks: { items } } } = await spotifyAPI
-        // eslint-disable-next-line max-len
+      const { data: { tracks: { items, next, previous } } } = await spotifyAPI
         .get<TracksPaginatedResponse>('/search', {
           ...requestConfiguration,
           params: {
@@ -82,6 +89,7 @@ export const TracksProvider: FC = ({ children }) => {
           }
         });
 
+      pageData.current = { next, previous, current: 1 };
       setTracks(items);
       setSearching(false);
     } catch (error) {
@@ -90,6 +98,21 @@ export const TracksProvider: FC = ({ children }) => {
   };
 
   ///////////////////////////////////////////////////////////////////////////
+
+  const changePage = async (nextPage: string | null) => {
+    if (!nextPage) return;
+
+    const { data: { tracks: { items, next, previous, offset } } } = await axios
+      .get<TracksPaginatedResponse>(nextPage, requestConfiguration);
+
+    pageData.current = {
+      next,
+      previous,
+      current: ((offset / 20) + 1)
+    };
+
+    setTracks(items);
+  };
 
   useEffect(() => {
     getToken();
@@ -101,7 +124,9 @@ export const TracksProvider: FC = ({ children }) => {
       tracks,
       testTracks,
       searching,
-      getTrackList
+      pageData: pageData.current,
+      getTrackList,
+      changePage
     }}
     >
       {children}
