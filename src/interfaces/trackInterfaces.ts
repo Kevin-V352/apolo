@@ -9,9 +9,9 @@ export interface Tracks {
   href: string;
   items: TrackResponse[];
   limit: number;
-  next: string;
+  next: null | string;
   offset: number;
-  previous: null;
+  previous: null | string;
   total: number;
 }
 
