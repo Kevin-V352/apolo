@@ -1,5 +1,6 @@
 import styled, { css } from 'styled-components';
 
+import { expandAnimation } from '../../shared/sharedStyles';
 import { Text } from '../../shared/StylizedComponents';
 
 interface ImageProps {
@@ -38,11 +39,8 @@ export const Container = styled.div`
   border-radius: 1vh;
   overflow: hidden;
   position: relative;
-  transition: var(--primary-transition);
   background-color: ${({ theme }) => theme.tertiaryColor};
-  :hover {
-    transform: scale(1.05);
-  }
+  ${expandAnimation}
 `;
 
 export const Image = styled.img<ImageProps>`
