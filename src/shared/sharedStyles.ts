@@ -10,3 +10,10 @@ export const expandAnimation = css`
     transform: scale(1);
   }
 `;
+
+export const pressAnimation = css`
+  :active {
+    transform: scale(0.9);
+    transition: 0.2s;
+  }
+`;
