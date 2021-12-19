@@ -51,6 +51,7 @@ const HomePage = () => {
                   imageUrl={album.images[1].url}
                   trackTitle={name}
                   artistName={artists[0].name}
+                  id={id}
                   key={id}
                 />
               ))
