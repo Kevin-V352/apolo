@@ -5,13 +5,15 @@ import * as S from './AppSkeletonElements';
 
 interface AppSkeletonProps {
   customStyles: CustomStyles;
+  borderRadius?: boolean;
 };
 
-const AppSkeleton = ({ customStyles }: AppSkeletonProps) => (
+const AppSkeleton = ({ customStyles, borderRadius }: AppSkeletonProps) => (
   <S.Container
     customStyles={customStyles}
   >
     <Skeleton
+      borderRadius={(borderRadius ? '1vh' : '0')}
       style={{
         width: '100%',
         height: '100%'

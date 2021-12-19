@@ -9,5 +9,6 @@ interface ContainerProps {
 // eslint-disable-next-line import/prefer-default-export
 export const Container = styled.div<ContainerProps>`
   line-height: 1;
+  overflow: hidden;
   ${({ customStyles }) => customStyles}
 `;
