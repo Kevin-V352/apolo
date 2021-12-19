@@ -3,34 +3,40 @@ import styled, { css } from 'styled-components';
 import { expandAnimation } from '../../shared/sharedStyles';
 import { Text } from '../../shared/StylizedComponents';
 
-interface ImageProps {
-  imageLoaded: boolean;
-};
-
 const textStyles = css`
+  width: 15vw;
   white-space: nowrap;
+  overflow: hidden visible;
   text-overflow: ellipsis;
-  max-width: 15vw;
-  overflow: hidden;
-  height: min-content;
+  line-height: 80%;
 `;
 
-export const trackNameSkeletonStyles = css`
+export const imageStyles = css`
+  width: 17vw;
+  height: 40vh;
+`;
+
+export const titleContainerStyles = css`
   height: 3vh;
   width: 15vw;
 `;
 
-export const artistNameSkeletonStyles = css`
+export const artistContainerStyles = css`
   height: 2vh;
   width: 15vw;
 `;
 
-export const imageSkeletonStyles = css`
-  width: 17vw;
-  height: 40vh;
-  position: absolute;
-  transform: scaleX(1.05);
-  top: 0;
+export const titleTextStyles = css`
+  height: 4vh;
+  ${textStyles}  
+`;
+
+export const artistTextStyles = css`
+  font-weight: bold;
+  height: 3vh;
+  font-size: var(--tertiary-font-size);
+  color: ${({ theme }) => theme.secondaryColor};
+  ${textStyles}
 `;
 
 export const Container = styled.div`
@@ -43,30 +49,17 @@ export const Container = styled.div`
   ${expandAnimation}
 `;
 
-export const Image = styled.img<ImageProps>`
-  width: 17vw;
-  height: 40vh;
-  transition: 0.4s;
-  opacity: ${({ imageLoaded }) => (imageLoaded ? '1' : '0')};
-`;
-
 export const InformationContainer = styled.div`
   height: 9vh;
   display: grid;
   width: 15vw;
-  margin: -0.8vh 1vw 0 1vw;
+  margin: 0vh 1vw 0 1vw;
   align-items: center;
-  grid-template-rows: 4vh 2.72vh;
+  grid-template-rows: 3vh 2vh;
+  grid-row-gap: 1vh;
   align-content: center;
 `;
 
 export const TrackName = styled(Text)`
-  ${textStyles}
-`;
-
-export const ArtistName = styled(Text)`
-  font-weight: bold;
-  font-size: var(--tertiary-font-size);
-  color: ${({ theme }) => theme.secondaryColor};
   ${textStyles}
 `;

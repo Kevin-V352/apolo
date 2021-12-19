@@ -1,55 +1,40 @@
-import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
-import AppSkeleton from '../AppSkeleton/AppSkeleton';
+import ImageWithSkeleton from '../ImageWithSkeleton/ImageWithSkeleton';
+import TextWithSkeleton from '../TextWithSkeleton/TextWithSkeleton';
 import * as S from './TrackCardElements';
 
 interface TrackCardProps {
   imageUrl?: string;
   trackTitle: string;
   artistName: string;
+  id: string;
 };
 
-const TrackCard = ({ imageUrl, trackTitle, artistName }: TrackCardProps) => {
-  const [imageLoaded, setImageLoaded] = useState(false);
+const TrackCard = ({ imageUrl, trackTitle, artistName, id }: TrackCardProps) => {
+  const navigate = useNavigate();
 
   return (
-    <S.Container>
-      <S.Image
-        src={imageUrl}
-        onLoad={() => setImageLoaded(true)}
-        imageLoaded={imageLoaded}
+    <S.Container
+      onClick={() => navigate(`track-details/${id}`)}
+    >
+      <ImageWithSkeleton
+        url={imageUrl!}
+        customStyles={S.imageStyles}
       />
-      {
-        !imageLoaded && (
-          <AppSkeleton
-            customStyles={S.imageSkeletonStyles}
-          />
-        )
-      }
       <S.InformationContainer>
-        {
-          imageLoaded
-            ? (
-              <>
-                <S.TrackName>
-                  {trackTitle}
-                </S.TrackName>
-                <S.ArtistName>
-                  {artistName}
-                </S.ArtistName>
-              </>
-            )
-            : (
-              <>
-                <AppSkeleton
-                  customStyles={S.trackNameSkeletonStyles}
-                />
-                <AppSkeleton
-                  customStyles={S.artistNameSkeletonStyles}
-                />
-              </>
-            )
-        }
+        <TextWithSkeleton
+          loading={false}
+          text={trackTitle}
+          customContainerStyles={S.titleContainerStyles}
+          customTextStyles={S.titleTextStyles}
+        />
+        <TextWithSkeleton
+          loading={false}
+          text={artistName}
+          customContainerStyles={S.artistContainerStyles}
+          customTextStyles={S.artistTextStyles}
+        />
       </S.InformationContainer>
     </S.Container>
   );
