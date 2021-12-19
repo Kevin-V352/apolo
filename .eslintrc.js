@@ -37,6 +37,7 @@ module.exports = {
     'import/no-dynamic-require': RULES.OFF,
     'react/require-default-props': RULES.OFF,
     'react/jsx-props-no-spreading': RULES.OFF,
+    'jsx-a11y/media-has-caption': RULES.OFF,
     'react/react-in-jsx-scope': RULES.OFF,
     'comma-dangle': [RULES.ERROR, 'never'],
     'max-len': [RULES.ERROR, { code: 115 }],
