@@ -19,6 +19,7 @@ const AppState: FC = ({ children }) => (
     <SkeletonTheme
       baseColor="#202020"
       highlightColor="#444"
+      borderRadius={0}
     >
       <TracksProvider>
         {children}
