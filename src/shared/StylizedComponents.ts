@@ -1,5 +1,11 @@
 import styled from 'styled-components';
 
+import { CustomStyles } from '../types/appTypes';
+
+interface TextProps {
+  customStyles?: CustomStyles;
+};
+
 export const Title = styled.h1`
   font-size: var(--primary-font-size);
   font-weight: normal;
@@ -7,8 +13,9 @@ export const Title = styled.h1`
   color: ${({ theme }) => theme.primaryColor};
 `;
 
-export const Text = styled.p`
+export const Text = styled.p<TextProps>`
   font-size: var(--secondary-font-size);
-  color: ${({ theme }) => theme.primaryColor};
   margin: 0;
+  color: ${({ theme }) => theme.primaryColor};
+  ${({ customStyles }) => customStyles}
 `;
