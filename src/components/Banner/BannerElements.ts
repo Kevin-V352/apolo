@@ -8,4 +8,5 @@ export const Container = styled.div`
   height: calc(39vh - 4vw);
   border-radius: 1vh;
   background: url(${headerBackgroundImage}) no-repeat center center fixed;
+  grid-area: 1/1/2/6;
 `;
