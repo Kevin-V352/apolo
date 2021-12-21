@@ -1,9 +1,8 @@
 /* eslint-disable camelcase */
-import { useState, useContext, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 
 import lyricsOvhAPI from '../api/lyricsOvhAPI';
 import { spotifyAPI } from '../api/spotifyAPI';
-import { TracksContext } from '../contexts/tracksContext/TracksContext';
 import { dateFormat, letterSeparator, orderArtists, trackDuration } from '../helpers/formatters';
 import { LyricsResponse } from '../interfaces/lyricsInterfaces';
 import { TrackResponse } from '../interfaces/trackInterfaces';
@@ -21,8 +20,6 @@ interface TrackDetailsState {
 };
 
 const useTrackDetails = (trackId: string) => {
-  const { requestConfiguration } = useContext(TracksContext);
-
   const [state, setState] = useState<TrackDetailsState>({
     title: '',
     album: '',
@@ -48,7 +45,7 @@ const useTrackDetails = (trackId: string) => {
   const getTrackData = async () => {
     try {
       const { data } = await spotifyAPI
-        .get<TrackResponse>(`/tracks/${trackId}`, requestConfiguration);
+        .get<TrackResponse>(`/tracks/${trackId}`);
       return [data, null];
     } catch (error) {
       return [null, error];
