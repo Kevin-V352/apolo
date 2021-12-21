@@ -4,13 +4,14 @@ import { SkeletonTheme } from 'react-loading-skeleton';
 import { ThemeProvider } from 'styled-components';
 import 'react-loading-skeleton/dist/skeleton.css';
 
-import { TracksProvider } from './contexts/tracksContext/TracksContext';
-import AppRouter from './routers/AppRouter';
+import { AuthProvider } from './contexts/authContext/AuthContext';
+import { SearchProvider } from './contexts/authContext/SearchContext';
+import AuthRouter from './routers/AuthRouter';
 import theme from './theme/theme';
 
 const App = () => (
   <AppState>
-    <AppRouter />
+    <AuthRouter />
   </AppState>
 );
 
@@ -21,9 +22,11 @@ const AppState: FC = ({ children }) => (
       highlightColor="#444"
       borderRadius={0}
     >
-      <TracksProvider>
-        {children}
-      </TracksProvider>
+      <AuthProvider>
+        <SearchProvider>
+          {children}
+        </SearchProvider>
+      </AuthProvider>
     </SkeletonTheme>
   </ThemeProvider>
 );
