@@ -10,5 +10,5 @@ export const Container = styled.div`
   place-items: center;
   position: fixed;
   background-color: #223750;
-  z-index: 1;
+  z-index: 2;
 `;
