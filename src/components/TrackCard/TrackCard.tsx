@@ -1,3 +1,5 @@
+import { memo } from 'react';
+
 import { useNavigate } from 'react-router-dom';
 
 import ImageWithSkeleton from '../ImageWithSkeleton/ImageWithSkeleton';
@@ -11,12 +13,16 @@ interface TrackCardProps {
   id: string;
 };
 
+const trackCardPropsAreEqual = (prevProps: TrackCardProps, nextProps: TrackCardProps) => (
+  (prevProps.id === nextProps.id)
+);
+
 const TrackCard = ({ imageUrl, trackTitle, artistName, id }: TrackCardProps) => {
   const navigate = useNavigate();
 
   return (
     <S.Container
-      onClick={() => navigate(`track-details/${id}`)}
+      onClick={() => navigate(`/track-details/${id}`)}
     >
       <ImageWithSkeleton
         url={imageUrl!}
@@ -40,4 +46,4 @@ const TrackCard = ({ imageUrl, trackTitle, artistName, id }: TrackCardProps) => 
   );
 };
 
-export default TrackCard;
+export default memo(TrackCard, trackCardPropsAreEqual);
