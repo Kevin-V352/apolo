@@ -1,3 +1,4 @@
+/* eslint-disable no-param-reassign */
 import axios, { AxiosPromise } from 'axios';
 
 import { TokenResponse } from '../interfaces/tokenInterfaces';
@@ -17,3 +18,14 @@ export const spotifyAuthAPI: AxiosPromise<TokenResponse> = axios('https://accoun
 });
 
 export const spotifyAPI = axios.create({ baseURL: 'https://api.spotify.com/v1' });
+
+spotifyAPI.interceptors.request.use((config) => {
+  const token = localStorage.getItem('token');
+
+  if (token) {
+    config.headers!.Authorization = `Bearer ${JSON.parse(token)}`;
+    config.method = 'GET';
+  };
+
+  return config;
+}, (error) => console.log(error));
