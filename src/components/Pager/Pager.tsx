@@ -1,36 +1,29 @@
-import { useContext } from 'react';
-
-import { TracksContext } from '../../contexts/tracksContext/TracksContext';
 import * as S from './PagerElements';
 
-const Pager = () => {
-  const {
-    tracks,
-    changePage,
-    pageData: { previous, current, next }
-  } = useContext(TracksContext);
-
-  return (
-    <S.Container enoughContent={!!(tracks && tracks.length < 6)}>
-      {
-        previous && (
-          <S.ArrowLeft
-            onClick={() => changePage(previous)}
-          />
-        )
-      }
-      <S.PageIndicator>
-        {current}
-      </S.PageIndicator>
-      {
-        next && (
-          <S.ArrowRight
-            onClick={() => changePage(next)}
-          />
-        )
-      }
-    </S.Container>
-  );
+interface PagerProps {
+  numberOfResults: number;
+  currentPage: number;
+  nextPage: boolean;
+  onNext: () => void;
+  onPrev: () => void;
 };
+
+const Pager = ({ numberOfResults, currentPage, nextPage, onPrev, onNext }: PagerProps) => (
+  <S.Container enoughContent={numberOfResults < 6}>
+    {
+      (currentPage > 1) && (
+        <S.ArrowLeft onClick={onPrev} />
+      )
+    }
+    <S.PageIndicator>
+      {currentPage}
+    </S.PageIndicator>
+    {
+      nextPage && (
+        <S.ArrowRight onClick={onNext} />
+      )
+    }
+  </S.Container>
+);
 
 export default Pager;
