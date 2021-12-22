@@ -3,14 +3,14 @@ import { PuffLoader } from 'react-spinners';
 import { useTheme } from 'styled-components';
 
 import { Text } from '../../shared/StylizedComponents';
-import * as S from './AlertElements';
+import * as S from './AlertPageElements';
 
 interface AlertProps {
   type: 'load' | 'error' | 'not-found';
   message?: string;
 };
 
-const Alert = ({ type, message }: AlertProps) => {
+const AlertPage = ({ type, message }: AlertProps) => {
   const { secondaryColor } = useTheme();
 
   // eslint-disable-next-line consistent-return
@@ -55,4 +55,4 @@ const Alert = ({ type, message }: AlertProps) => {
   );
 };
 
-export default Alert;
+export default AlertPage;
