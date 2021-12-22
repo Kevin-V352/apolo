@@ -21,11 +21,20 @@ const SearchResults = () => {
 
   const formatedPage = Number(page);
 
-  const { tracks, nextPage, status } = useResultList(query!, formatedPage);
+  const { tracks, nextPage, status, error } = useResultList(query!, formatedPage);
 
   useEffect(() => {
     scroll();
   }, [tracks]);
+
+  if (error) {
+    return (
+      <AlertPage
+        type="error"
+        message={error}
+      />
+    );
+  };
 
   if (status === 'pending' && tracks.length === 0) {
     return <AlertPage type="load" />;
@@ -34,7 +43,7 @@ const SearchResults = () => {
   if (status === 'finalized' && tracks.length === 0) {
     return (
       <AlertPage
-        type="alert"
+        type="not-found"
         message="Hmm, nada por aquí..."
       />
     );
