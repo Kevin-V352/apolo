@@ -4,7 +4,7 @@ import AudioPlayer from '../../components/AudioPlayer/AudioPlayer';
 import SlidingContainer from '../../components/SlidingContainer/SlidingContainer';
 import TextWithSkeleton from '../../components/TextWithSkeleton/TextWithSkeleton';
 import useTrackDetails from '../../hooks/useTrackDetails';
-import AlertPage from '../AlertPage/AlertPage';
+import Alert from '../Alert/Alert';
 import * as S from './TrackDetailsElements';
 
 const TrackDetails = () => {
@@ -32,7 +32,7 @@ const TrackDetails = () => {
 
   if (error) {
     return (
-      <AlertPage
+      <Alert
         type="error"
         message={error}
       />
