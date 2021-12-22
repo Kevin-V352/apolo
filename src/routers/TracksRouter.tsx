@@ -2,16 +2,16 @@ import { Navigate, Route, Routes } from 'react-router-dom';
 
 import NavBar from '../components/NavBar/NavBar';
 import HomePage from '../pages/HomePage/HomePage';
-import SearchResults from '../pages/SearchResults/SearchResults';
-import TrackDetails from '../pages/TrackDetails/TrackDetails';
+import SearchResultsPage from '../pages/SearchResultsPage/SearchResultsPage';
+import TrackDetailsPage from '../pages/TrackDetailsPage/TrackDetailsPage';
 
 const TracksRouter = () => (
   <>
     <NavBar />
     <Routes>
       <Route path="/" element={<HomePage />} />
-      <Route path="/search/:query/:page" element={<SearchResults />} />
-      <Route path="track-details/:id" element={<TrackDetails />} />
+      <Route path="/search/:query/:page" element={<SearchResultsPage />} />
+      <Route path="track-details/:id" element={<TrackDetailsPage />} />
       <Route path="*" element={<Navigate to="/" />} />
     </Routes>
   </>
