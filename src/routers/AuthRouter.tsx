@@ -3,7 +3,7 @@ import { useContext } from 'react';
 import { Route, Routes } from 'react-router-dom';
 
 import { AuthContext } from '../contexts/authContext/AuthContext';
-import Alert from '../pages/Alert/Alert';
+import AlertPage from '../pages/AlertPage/AlertPage';
 import TracksRouter from './TracksRouter';
 
 const AuthRouter = () => {
@@ -12,13 +12,13 @@ const AuthRouter = () => {
   const renderSwitch = () => {
     switch (status) {
       case 'checking':
-        return <Route path="*" element={<Alert type="load" />} />;
+        return <Route path="*" element={<AlertPage type="load" />} />;
 
       case 'authenticated':
         return <Route path="*" element={<TracksRouter />} />;
 
       default:
-        return <Route path="*" element={<Alert type="error" message={error!} />} />;
+        return <Route path="*" element={<AlertPage type="error" message={error!} />} />;
     };
   };
 
