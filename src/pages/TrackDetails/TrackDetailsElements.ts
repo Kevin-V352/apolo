@@ -1,26 +1,39 @@
 import styled, { css } from 'styled-components';
 
-const lineHeight = css`
+const textStyles = css`
   line-height: 80%;
+  white-space: nowrap;
+`;
+
+const disableScrollbar = css`
+  ::-webkit-scrollbar {
+    display: none;
+  }
+`;
+
+const textContainerStyles = css`
+  width: 100%;
+  overflow-x: scroll;
+  ${disableScrollbar}
 `;
 
 export const titleContainerStyles = css`
   height: 6vh;
-  width: 100%;
-`;
-
-export const titleTextStyles = css`
-  font-size: var(--primary-font-size);
-  ${lineHeight}
+  ${textContainerStyles}
 `;
 
 export const infoContainerStyles = css`
   height: var(--secondary-font-size);
-  width: 100%;
+  ${textContainerStyles}
+`;
+
+export const titleTextStyles = css`
+  font-size: var(--primary-font-size);
+  ${textStyles}
 `;
 
 export const infoTextStyles = css`
-  ${lineHeight}
+  ${textStyles}
 `;
 
 export const Container = styled.div`

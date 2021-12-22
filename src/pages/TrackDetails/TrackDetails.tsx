@@ -4,6 +4,7 @@ import AudioPlayer from '../../components/AudioPlayer/AudioPlayer';
 import SlidingContainer from '../../components/SlidingContainer/SlidingContainer';
 import TextWithSkeleton from '../../components/TextWithSkeleton/TextWithSkeleton';
 import useTrackDetails from '../../hooks/useTrackDetails';
+import AlertPage from '../AlertPage/AlertPage';
 import * as S from './TrackDetailsElements';
 
 const TrackDetails = () => {
@@ -18,7 +19,8 @@ const TrackDetails = () => {
     duration,
     audioUrl,
     lyrics,
-    loading
+    loading,
+    error
   } = useTrackDetails(id!);
 
   const items = [
@@ -27,6 +29,15 @@ const TrackDetails = () => {
     `Fecha de lanzamiento: ${releaseDate}`,
     `Duración: ${duration}`
   ];
+
+  if (error) {
+    return (
+      <AlertPage
+        type="error"
+        message={error}
+      />
+    );
+  };
 
   return (
     <S.Container>
