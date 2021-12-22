@@ -6,7 +6,7 @@ import Pager from '../../components/Pager/Pager';
 import TrackCard from '../../components/TrackCard/TrackCard';
 import useResultList from '../../hooks/useResultList';
 import AlertPage from '../AlertPage/AlertPage';
-import * as S from './SearchResultsElements';
+import * as S from './SearchResultsPageElements';
 
 const scroll = () => {
   window.scroll({
@@ -15,7 +15,7 @@ const scroll = () => {
   });
 };
 
-const SearchResults = () => {
+const SearchResultsPage = () => {
   const navigate = useNavigate();
   const { query, page } = useParams();
 
@@ -75,4 +75,4 @@ const SearchResults = () => {
   );
 };
 
-export default SearchResults;
+export default SearchResultsPage;
