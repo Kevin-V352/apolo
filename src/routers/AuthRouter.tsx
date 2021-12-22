@@ -7,15 +7,24 @@ import LoadingPage from '../pages/AlertPage/AlertPage';
 import TracksRouter from './TracksRouter';
 
 const AuthRouter = () => {
-  const { status } = useContext(AuthContext);
+  const { status, error } = useContext(AuthContext);
+
+  const renderSwitch = () => {
+    switch (status) {
+      case 'checking':
+        return <Route path="*" element={<LoadingPage type="load" />} />;
+
+      case 'authenticated':
+        return <Route path="*" element={<TracksRouter />} />;
+
+      default:
+        return <Route path="*" element={<LoadingPage type="error" message={error!} />} />;
+    };
+  };
 
   return (
     <Routes>
-      {
-        (status === 'checking')
-          ? <Route path="*" element={<LoadingPage type="load" />} />
-          : <Route path="*" element={<TracksRouter />} />
-      }
+      {renderSwitch()}
     </Routes>
   );
 };
