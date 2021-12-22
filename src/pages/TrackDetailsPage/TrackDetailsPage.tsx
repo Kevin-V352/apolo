@@ -4,10 +4,10 @@ import AudioPlayer from '../../components/AudioPlayer/AudioPlayer';
 import SlidingContainer from '../../components/SlidingContainer/SlidingContainer';
 import TextWithSkeleton from '../../components/TextWithSkeleton/TextWithSkeleton';
 import useTrackDetails from '../../hooks/useTrackDetails';
-import Alert from '../Alert/Alert';
-import * as S from './TrackDetailsElements';
+import AlertPage from '../AlertPage/AlertPage';
+import * as S from './TrackDetailsPageElements';
 
-const TrackDetails = () => {
+const TrackDetailsPage = () => {
   const { id } = useParams();
 
   const {
@@ -32,7 +32,7 @@ const TrackDetails = () => {
 
   if (error) {
     return (
-      <Alert
+      <AlertPage
         type="error"
         message={error}
       />
@@ -73,4 +73,4 @@ const TrackDetails = () => {
   );
 };
 
-export default TrackDetails;
+export default TrackDetailsPage;
