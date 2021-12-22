@@ -2,19 +2,22 @@ import { useState, useEffect, useContext } from 'react';
 
 import { spotifyAPI } from '../api/spotifyAPI';
 import { SearchContext } from '../contexts/authContext/SearchContext';
+import { errorHandler } from '../helpers/errorHandlers';
 import { TracksPaginatedResponse, TrackResponse } from '../interfaces/trackInterfaces';
 
 interface useResultListState {
   tracks: TrackResponse[];
   nextPage: boolean;
-  status: 'pending' | 'finalized'
+  status: 'pending' | 'finalized',
+  error: null | string
 };
 
 const useResultList = (searchTerm: string, pageNumber: number) => {
   const [state, setState] = useState<useResultListState>({
     tracks: [],
     nextPage: false,
-    status: 'pending'
+    status: 'pending',
+    error: null
   });
 
   const { setSearching } = useContext(SearchContext);
@@ -34,6 +37,7 @@ const useResultList = (searchTerm: string, pageNumber: number) => {
         });
 
       setState({
+        ...state,
         tracks: items,
         nextPage: !!next,
         status: 'finalized'
@@ -41,8 +45,11 @@ const useResultList = (searchTerm: string, pageNumber: number) => {
 
       setSearching(false);
     } catch (error) {
-      console.error(error);
-    }
+      setState({
+        ...state,
+        error: errorHandler(error)
+      });
+    };
   };
 
   useEffect(() => {

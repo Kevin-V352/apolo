@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react';
 
 import lyricsOvhAPI from '../api/lyricsOvhAPI';
 import { spotifyAPI } from '../api/spotifyAPI';
+import { errorHandler } from '../helpers/errorHandlers';
 import { dateFormat, letterSeparator, orderArtists, trackDuration } from '../helpers/formatters';
 import { LyricsResponse } from '../interfaces/lyricsInterfaces';
 import { TrackResponse } from '../interfaces/trackInterfaces';
@@ -17,6 +18,7 @@ interface TrackDetailsState {
   audioUrl: string | null | 'pending',
   lyrics: string | null;
   loading: boolean;
+  error: null | string;
 };
 
 const useTrackDetails = (trackId: string) => {
@@ -29,7 +31,8 @@ const useTrackDetails = (trackId: string) => {
     duration: '',
     audioUrl: 'pending',
     lyrics: 'pending',
-    loading: true
+    loading: true,
+    error: null
   });
 
   const getTrackLyrics = async (artist: string, name: string): Promise<string | null> => {
@@ -55,7 +58,13 @@ const useTrackDetails = (trackId: string) => {
   const getTrackDetails = async () => {
     const [data, trackDataError] = await getTrackData();
 
-    if (trackDataError) throw trackDataError;
+    if (trackDataError) {
+      setState({
+        ...state,
+        error: errorHandler(trackDataError)
+      });
+      return;
+    };
 
     const {
       name,
@@ -68,6 +77,7 @@ const useTrackDetails = (trackId: string) => {
     const lyrics = await getTrackLyrics(artists[0].name, name);
 
     setState({
+      ...state,
       title: name,
       album: album.name,
       image: album.images[0].url,

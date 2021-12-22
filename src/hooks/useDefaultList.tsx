@@ -2,29 +2,44 @@ import { useEffect, useState } from 'react';
 
 import { spotifyAPI } from '../api/spotifyAPI';
 import testTracksIdentifiers from '../data/testTracksIdentifiers';
+import { errorHandler } from '../helpers/errorHandlers';
 import { TrackResponse } from '../interfaces/trackInterfaces';
 
-const useDefaultList = () => {
-  const [state, setState] = useState<TrackResponse[]>([]);
+interface useDefaultListState {
+  defaultTracks: TrackResponse[];
+  error: null | string;
+};
 
-  const getTestTracks = async () => {
+const useDefaultList = () => {
+  const [state, setState] = useState<useDefaultListState>({
+    defaultTracks: [],
+    error: null
+  });
+
+  const getDefaultTracks = async () => {
     try {
       const promisesTestTracks = testTracksIdentifiers.map((id) => (
         spotifyAPI.get<TrackResponse>(`/tracks/${id}`)
       ));
       const responseTestTracks = await Promise.all(promisesTestTracks);
 
-      setState(responseTestTracks.map(({ data }) => data));
+      setState({
+        ...state,
+        defaultTracks: responseTestTracks.map(({ data }) => data)
+      });
     } catch (error) {
-      console.log(error);
+      setState({
+        ...state,
+        error: errorHandler(error)
+      });
     };
   };
 
   useEffect(() => {
-    getTestTracks();
+    getDefaultTracks();
   }, []);
 
-  return state;
+  return { ...state };
 };
 
 export default useDefaultList;
