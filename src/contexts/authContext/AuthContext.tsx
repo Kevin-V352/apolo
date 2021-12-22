@@ -4,17 +4,24 @@
 import { createContext, FC, useEffect, useState } from 'react';
 
 import { spotifyAuthAPI } from '../../api/spotifyAPI';
+import { errorHandler } from '../../helpers/errorHandlers';
 
 type AuthenticationStatus = 'checking' | 'authenticated' | 'not-authenticated';
 
 interface AuthContextProps {
   status: AuthenticationStatus;
+  error: null | string;
 };
+
+interface AuthContexState extends AuthContextProps{};
 
 export const AuthContext = createContext({} as AuthContextProps);
 
 export const AuthProvider: FC = ({ children }) => {
-  const [status, setStatus] = useState<AuthenticationStatus>('checking');
+  const [state, setState] = useState<AuthContexState>({
+    status: 'checking',
+    error: null
+  });
 
   const getToken = async () => {
     try {
@@ -23,9 +30,15 @@ export const AuthProvider: FC = ({ children }) => {
       localStorage
         .setItem('token', JSON.stringify(access_token));
 
-      setStatus('authenticated');
+      setState({
+        ...state,
+        status: 'authenticated'
+      });
     } catch (error) {
-      setStatus('not-authenticated');
+      setState({
+        status: 'not-authenticated',
+        error: errorHandler(error)
+      });
     };
   };
 
@@ -34,7 +47,7 @@ export const AuthProvider: FC = ({ children }) => {
   }, []);
 
   return (
-    <AuthContext.Provider value={{ status }}>
+    <AuthContext.Provider value={{ ...state }}>
       {children}
     </AuthContext.Provider>
   );
