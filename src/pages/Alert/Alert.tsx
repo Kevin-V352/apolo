@@ -3,14 +3,14 @@ import { PuffLoader } from 'react-spinners';
 import { useTheme } from 'styled-components';
 
 import { Text } from '../../shared/StylizedComponents';
-import * as S from './AlertPageElements';
+import * as S from './AlertElements';
 
-interface AlertPageProps {
-  type: 'load' | 'error' | 'alert';
+interface AlertProps {
+  type: 'load' | 'error' | 'not-found';
   message?: string;
 };
 
-const AlertPage = ({ type, message }: AlertPageProps) => {
+const Alert = ({ type, message }: AlertProps) => {
   const { secondaryColor } = useTheme();
 
   // eslint-disable-next-line consistent-return
@@ -24,7 +24,7 @@ const AlertPage = ({ type, message }: AlertPageProps) => {
           />
         );
 
-      case 'alert':
+      case 'not-found':
         return (
           <>
             <AiOutlineQuestion
@@ -55,4 +55,4 @@ const AlertPage = ({ type, message }: AlertPageProps) => {
   );
 };
 
-export default AlertPage;
+export default Alert;
