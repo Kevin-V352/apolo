@@ -11,6 +11,15 @@
   --secondary-transition: 0.4s;
 }
 
+/* >>> Text font declaration >>> */
+
+@font-face {
+  font-family: 'Library3';
+  src: local('Library3'), url(./assets/fonts/library3.woff2) format('woff2');
+}
+
+/* >>> Global style settings >>> */
+
 body {
   margin: 0;
   background: #141E30;  /* fallback for old browsers */
