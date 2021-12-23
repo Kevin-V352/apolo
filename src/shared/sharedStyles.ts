@@ -1,6 +1,5 @@
 import { css } from 'styled-components';
 
-// eslint-disable-next-line import/prefer-default-export
 export const expandAnimation = css`
   transition: var(--primary-transition);
   :hover {
@@ -9,6 +8,7 @@ export const expandAnimation = css`
   :active {
     transform: scale(1);
   }
+  cursor: pointer;
 `;
 
 export const pressAnimation = css`
@@ -16,4 +16,5 @@ export const pressAnimation = css`
     transform: scale(0.9);
     transition: 0.2s;
   }
+  cursor: pointer;
 `;
