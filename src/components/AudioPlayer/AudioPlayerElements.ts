@@ -13,7 +13,7 @@ interface IconsProps {
 };
 
 const iconStyles = css<IconsProps>`
-  font-size: 6vh;
+  font-size: var(--primary-font-size);
   color: ${({ theme, $active }) => (
     $active ? theme.secondaryColor : theme.primaryColor
   )};
