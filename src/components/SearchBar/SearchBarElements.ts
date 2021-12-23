@@ -5,7 +5,6 @@ export const Container = styled.div`
   display: flex;
   width: 30vw;
   padding: 1vh;
-  margin-right: 5vw;
   background-color: ${({ theme }) => theme.tertiaryColor};
 `;
 

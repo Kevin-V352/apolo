@@ -31,6 +31,7 @@ const SearchBar = () => {
     <S.Container>
       <S.Input
         onChange={({ target: { value } }) => setTextValue(value)}
+        autoCorrect="false"
       />
       {
         searching
