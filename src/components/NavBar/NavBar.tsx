@@ -1,24 +1,22 @@
-import { AiFillGithub } from 'react-icons/ai';
-import { useTheme } from 'styled-components';
+import { useNavigate } from 'react-router-dom';
 
-import { Title } from '../../shared/StylizedComponents';
+import { redirector } from '../../helpers/redirectors';
 import SearchBar from '../SearchBar/SearchBar';
 import * as S from './NavBarElements';
 
 const NavBar = () => {
-  const { primaryColor } = useTheme();
+  const navigate = useNavigate();
 
   return (
     <S.Container>
-      <Title>APOLO</Title>
+      <S.AppTitle
+        onClick={() => navigate('/')}
+      >
+        APOLO
+      </S.AppTitle>
       <SearchBar />
-      <AiFillGithub
-        color={primaryColor}
-        size="7vh"
-      />
-      <AiFillGithub
-        color={primaryColor}
-        size="7vh"
+      <S.GithubIcon
+        onClick={() => redirector('https://github.com/Kevin-V352/apolo')}
       />
     </S.Container>
   );
