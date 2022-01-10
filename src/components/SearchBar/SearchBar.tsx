@@ -32,6 +32,7 @@ const SearchBar = () => {
       <S.Input
         onChange={({ target: { value } }) => setTextValue(value)}
         autoCorrect="false"
+        data-testid="searchInput"
       />
       {
         searching
