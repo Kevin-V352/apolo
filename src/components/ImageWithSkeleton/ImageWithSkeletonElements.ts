@@ -22,6 +22,9 @@ export const Container = styled.div<ContainerProps>`
   position: relative;
   background-color: ${({ theme }) => theme.tertiaryColor};
   line-height: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   ${({ customStyles }) => customStyles}
 `;
 
