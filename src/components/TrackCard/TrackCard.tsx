@@ -25,7 +25,7 @@ const TrackCard = ({ imageUrl, trackTitle, artistName, id }: TrackCardProps) => 
       onClick={() => navigate(`/track-details/${id}`)}
     >
       <ImageWithSkeleton
-        url={imageUrl!}
+        url={imageUrl}
         customStyles={S.imageStyles}
       />
       <S.InformationContainer>
