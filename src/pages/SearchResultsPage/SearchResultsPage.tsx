@@ -55,7 +55,7 @@ const SearchResultsPage = () => {
         {
           tracks.map(({ album, name, artists, id }) => (
             <TrackCard
-              imageUrl={album.images[1].url}
+              imageUrl={album.images[1]?.url}
               trackTitle={name}
               artistName={artists[0].name}
               id={id}
