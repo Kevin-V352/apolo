@@ -11,6 +11,7 @@ interface AppSkeletonProps {
 const AppSkeleton = ({ customStyles, borderRadius }: AppSkeletonProps) => (
   <S.Container
     customStyles={customStyles}
+    data-testid="skeleton"
   >
     <Skeleton
       borderRadius={(borderRadius ? '1vh' : '0')}
