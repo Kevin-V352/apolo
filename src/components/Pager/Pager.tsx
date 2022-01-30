@@ -12,7 +12,10 @@ const Pager = ({ numberOfResults, currentPage, nextPage, onPrev, onNext }: Pager
   <S.Container enoughContent={numberOfResults < 6}>
     {
       (currentPage > 1) && (
-        <S.ArrowLeft onClick={onPrev} />
+        <S.ArrowLeft
+          onClick={onPrev}
+          data-testid="prevButton"
+        />
       )
     }
     <S.PageIndicator>
@@ -20,7 +23,10 @@ const Pager = ({ numberOfResults, currentPage, nextPage, onPrev, onNext }: Pager
     </S.PageIndicator>
     {
       nextPage && (
-        <S.ArrowRight onClick={onNext} />
+        <S.ArrowRight
+          onClick={onNext}
+          data-testid="nextButton"
+        />
       )
     }
   </S.Container>
