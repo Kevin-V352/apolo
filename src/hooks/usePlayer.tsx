@@ -8,7 +8,6 @@ interface PlayerState {
   | 'pending'
   | 'playing'
   | 'paused'
-  | 'rebooted'
 };
 
 const usePlayer = (audioUrl: string | null) => {
@@ -20,16 +19,17 @@ const usePlayer = (audioUrl: string | null) => {
   const audioRef = useRef<HTMLAudioElement>();
   const statusRef = useRef<string>('pending');
 
+  // TODO: Review implementation
   const updateTime = useCallback(() => {
     const { currentTime } = audioRef.current!;
     const timePercentage = Math.round((currentTime * 100) / 30);
     setState((state) => ({ ...state, percentage: timePercentage }));
   }, []);
 
-  const control = useCallback((action: 'play' | 'pause' | 'reset') => {
+  const control = useCallback(async (action: 'play' | 'pause' | 'reset') => {
     switch (action) {
       case 'play':
-        audioRef.current!.play();
+        await audioRef.current!.play();
         if (statusRef.current === 'playing') break;
 
         setState((state) => ({ ...state, status: 'playing' }));
@@ -43,11 +43,7 @@ const usePlayer = (audioUrl: string | null) => {
         break;
 
       case 'reset':
-        audioRef.current!.pause();
         audioRef.current!.currentTime = 0;
-        if (statusRef.current === 'pending') break;
-
-        setState((state) => ({ ...state, status: 'rebooted' }));
         break;
 
       default:

@@ -1,4 +1,4 @@
-import { RiPauseFill, RiPlayFill, RiRestartLine } from 'react-icons/ri';
+import { RiPauseFill, RiPlayFill, RiRestartLine, RiSpotifyFill } from 'react-icons/ri';
 import styled, { css } from 'styled-components';
 
 import { pressAnimation } from '../../shared/sharedStyles';
@@ -8,15 +8,12 @@ interface ProgressBarProps {
   width: number;
 };
 
-interface IconsProps {
-  $active: boolean;
-};
-
-const iconStyles = css<IconsProps>`
+const iconStyles = css`
   font-size: var(--primary-font-size);
-  color: ${({ theme, $active }) => (
-    $active ? theme.secondaryColor : theme.primaryColor
-  )};
+  color: ${({ theme }) => theme.primaryColor};
+  :active {
+    color: ${({ theme }) => theme.secondaryColor};
+  };
   ${pressAnimation}
 `;
 
@@ -68,5 +65,9 @@ export const PauseIcon = styled(RiPauseFill)`
 `;
 
 export const ResetIcon = styled(RiRestartLine)`
+  ${iconStyles}
+`;
+
+export const SpotifyIcon = styled(RiSpotifyFill)`
   ${iconStyles}
 `;

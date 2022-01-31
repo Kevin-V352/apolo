@@ -17,6 +17,7 @@ const NavBar = () => {
       <SearchBar />
       <S.GithubIcon
         onClick={() => redirector('https://github.com/Kevin-V352/apolo')}
+        data-testid="githubIcon"
       />
     </S.Container>
   );

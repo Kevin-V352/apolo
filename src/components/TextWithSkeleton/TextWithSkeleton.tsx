@@ -4,7 +4,7 @@ import AppSkeleton from '../AppSkeleton/AppSkeleton';
 import * as S from './TextWithSkeletonElements';
 
 interface TextWithSkeletonProps {
-  customContainerStyles: CustomStyles;
+  customContainerStyles?: CustomStyles;
   customTextStyles?: CustomStyles;
   loading: boolean;
   text: string;

@@ -19,6 +19,7 @@ const TrackDetailsPage = () => {
     duration,
     audioUrl,
     lyrics,
+    externalUrl,
     loading,
     error
   } = useTrackDetails(id!);
@@ -44,6 +45,7 @@ const TrackDetailsPage = () => {
       <AudioPlayer
         imageUrl={image}
         audioUrl={audioUrl}
+        externalUrl={externalUrl}
       />
       <TextWithSkeleton
         text={title}
