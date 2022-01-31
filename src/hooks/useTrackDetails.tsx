@@ -11,12 +11,13 @@ import { TrackResponse } from '../interfaces/trackInterfaces';
 interface TrackDetailsState {
   title: string;
   album: string;
-  image: string;
+  image: string | undefined | 'pending';
   artists: string;
   releaseDate: string;
   duration: string;
   audioUrl: string | null | 'pending',
   lyrics: string | null;
+  externalUrl: string;
   loading: boolean;
   error: null | string;
 };
@@ -25,12 +26,13 @@ const useTrackDetails = (trackId: string) => {
   const [state, setState] = useState<TrackDetailsState>({
     title: '',
     album: '',
-    image: '',
+    image: 'pending',
     artists: '',
     releaseDate: '',
     duration: '',
     audioUrl: 'pending',
     lyrics: 'pending',
+    externalUrl: '',
     loading: true,
     error: null
   });
@@ -71,7 +73,8 @@ const useTrackDetails = (trackId: string) => {
       album,
       artists,
       duration_ms,
-      preview_url
+      preview_url,
+      external_urls
     } = data as TrackResponse;
 
     const lyrics = await getTrackLyrics(artists[0].name, name);
@@ -80,12 +83,13 @@ const useTrackDetails = (trackId: string) => {
       ...state,
       title: name,
       album: album.name,
-      image: album.images[0].url,
+      image: album.images[0]?.url,
       artists: orderArtists(artists),
       releaseDate: dateFormat(album.release_date),
       duration: trackDuration(duration_ms),
       audioUrl: preview_url,
       lyrics: letterSeparator(lyrics, name, orderArtists(artists)),
+      externalUrl: external_urls.spotify,
       loading: false
     });
   };
