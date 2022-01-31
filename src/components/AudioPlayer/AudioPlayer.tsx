@@ -1,48 +1,61 @@
 import { memo } from 'react';
 
+import { redirector } from '../../helpers/redirectors';
 import usePlayer from '../../hooks/usePlayer';
 import AppSkeleton from '../AppSkeleton/AppSkeleton';
 import ImageWithSkeleton from '../ImageWithSkeleton/ImageWithSkeleton';
 import * as S from './AudioPlayerElements';
 
 interface AudioPlayerProps {
-  imageUrl: string;
+  imageUrl: string | undefined | 'pending';
   audioUrl: string | null | 'pending';
+  externalUrl: string;
 };
 
 interface ControlsProps {
   status:
   | 'pending'
   | 'playing'
-  | 'paused'
-  | 'rebooted';
+  | 'paused';
   onPlay: () => void;
   onPause: () => void;
   onReset: () => void;
+  onRedirect: () => void;
 };
 
 const areEqual = (prevProps: ControlsProps, nextProps: ControlsProps) => (
   !!(prevProps.status === nextProps.status)
 );
 
-const Controls = memo(({ status, onPlay, onPause, onReset }: ControlsProps) => (
+const Controls = memo(({ status, onPlay, onPause, onReset, onRedirect }: ControlsProps) => (
   <>
-    <S.PauseIcon
-      onClick={onPause}
-      $active={(status === 'paused')}
+    <S.SpotifyIcon
+      onClick={onRedirect}
+      data-testid="spotifyLink"
     />
-    <S.PlayIcon
-      onClick={onPlay}
-      $active={(status === 'playing')}
-    />
+    {
+      (status === 'playing')
+        ? (
+          <S.PauseIcon
+            onClick={onPause}
+            data-testid="pauseButton"
+          />
+        )
+        : (
+          <S.PlayIcon
+            onClick={onPlay}
+            data-testid="playButton"
+          />
+        )
+    }
     <S.ResetIcon
       onClick={onReset}
-      $active={(status === 'rebooted')}
+      data-testid="resetButton"
     />
   </>
 ), areEqual);
 
-const AudioPlayer = ({ imageUrl, audioUrl }: AudioPlayerProps) => {
+const AudioPlayer = ({ imageUrl, audioUrl, externalUrl }: AudioPlayerProps) => {
   const { percentage, status, control } = usePlayer(audioUrl);
 
   const renderSwitch = () => {
@@ -69,13 +82,14 @@ const AudioPlayer = ({ imageUrl, audioUrl }: AudioPlayerProps) => {
               onPlay={() => control('play')}
               onPause={() => control('pause')}
               onReset={() => control('reset')}
+              onRedirect={() => redirector(externalUrl)}
             />
             <S.ProgressBar
               width={percentage}
             />
           </>
         );
-    }
+    };
   };
 
   return (
