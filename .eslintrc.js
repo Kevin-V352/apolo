@@ -19,7 +19,12 @@ module.exports = {
     document: true,
     KeyboardEvent: true,
     HTMLAnchorElement: true,
-    HTMLFormElement: true
+    HTMLFormElement: true,
+    jest: true,
+    test: true,
+    expect: true,
+    describe: true,
+    beforeEach: true
   },
   parser: '@typescript-eslint/parser',
   parserOptions: {
