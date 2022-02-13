@@ -86,6 +86,7 @@ const AudioPlayer = ({ imageUrl, audioUrl, externalUrl }: AudioPlayerProps) => {
             />
             <S.ProgressBar
               width={percentage}
+              data-testid="progressBar"
             />
           </>
         );
