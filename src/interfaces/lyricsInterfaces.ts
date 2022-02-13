@@ -1,4 +1,4 @@
 export interface LyricsResponse {
-  lyrics: string
+  lyrics: string;
   error: string;
 }
