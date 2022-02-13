@@ -18,7 +18,9 @@ const Pager = ({ numberOfResults, currentPage, nextPage, onPrev, onNext }: Pager
         />
       )
     }
-    <S.PageIndicator>
+    <S.PageIndicator
+      data-testid="pageIndicator"
+    >
       {currentPage}
     </S.PageIndicator>
     {

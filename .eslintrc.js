@@ -12,6 +12,7 @@ module.exports = {
   extends: [
     'plugin:react/recommended',
     'plugin:import/recommended',
+    'plugin:cypress/recommended',
     'airbnb'
   ],
   globals: {
@@ -20,11 +21,7 @@ module.exports = {
     KeyboardEvent: true,
     HTMLAnchorElement: true,
     HTMLFormElement: true,
-    jest: true,
-    test: true,
-    expect: true,
-    describe: true,
-    beforeEach: true
+    jest: true
   },
   parser: '@typescript-eslint/parser',
   parserOptions: {
@@ -32,7 +29,7 @@ module.exports = {
     ecmaVersion: 12,
     sourceType: 'module'
   },
-  plugins: ['react', '@typescript-eslint', 'import'],
+  plugins: ['react', '@typescript-eslint', 'import', 'cypress'],
   rules: {
     'no-extra-semi': RULES.OFF,
     'global-require': RULES.OFF,
