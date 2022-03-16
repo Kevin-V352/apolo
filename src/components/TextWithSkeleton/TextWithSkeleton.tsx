@@ -20,18 +20,21 @@ const TextWithSkeleton = ({
     customStyles={customContainerStyles}
   >
     {
-      loading && (
-        <AppSkeleton
-          customStyles={S.skeletonStyles}
-          borderRadius
-        />
-      )
+      loading
+        ? (
+          <AppSkeleton
+            customStyles={S.skeletonStyles}
+            borderRadius
+          />
+        )
+        : (
+          <Text
+            customStyles={customTextStyles}
+          >
+            {text}
+          </Text>
+        )
     }
-    <Text
-      customStyles={customTextStyles}
-    >
-      {text}
-    </Text>
   </S.Container>
 );
 
