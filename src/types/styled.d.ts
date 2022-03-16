@@ -5,5 +5,7 @@ declare module 'styled-components' {
     primaryColor: string;
     secondaryColor: string;
     tertiaryColor: string;
+    quaternaryColor: string;
+    quinaryColor: string;
   }
 };
