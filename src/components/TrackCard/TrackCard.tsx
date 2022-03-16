@@ -1,4 +1,4 @@
-import { memo } from 'react';
+import { memo, useState } from 'react';
 
 import { useNavigate } from 'react-router-dom';
 
@@ -18,25 +18,29 @@ const trackCardPropsAreEqual = (prevProps: TrackCardProps, nextProps: TrackCardP
 );
 
 const TrackCard = ({ imageUrl, trackTitle, artistName, id }: TrackCardProps) => {
+  const [loading, setLoading] = useState<boolean>(true);
+
   const navigate = useNavigate();
 
   return (
     <S.Container
       onClick={() => navigate(`/track-details/${id}`)}
+      $loading={loading}
     >
       <ImageWithSkeleton
         url={imageUrl}
         customStyles={S.imageStyles}
+        onLoad={(loaded) => setLoading(!loaded)}
       />
       <S.InformationContainer>
         <TextWithSkeleton
-          loading={false}
+          loading={loading}
           text={trackTitle}
           customContainerStyles={S.titleContainerStyles}
           customTextStyles={S.titleTextStyles}
         />
         <TextWithSkeleton
-          loading={false}
+          loading={loading}
           text={artistName}
           customContainerStyles={S.artistContainerStyles}
           customTextStyles={S.artistTextStyles}
