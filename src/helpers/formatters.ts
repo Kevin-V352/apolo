@@ -32,7 +32,7 @@ export const orderArtists = (artists: Artist[]): string => {
   if (artists.length === 1) return artists[0].name;
 
   let result: string = '';
-  // eslint-disable-next-line no-plusplus
+
   for (let i: number = 0; i < artists.length; i++) {
     if (i !== artists.length - 1) {
       result += `${artists[i].name}, `;
@@ -41,4 +41,18 @@ export const orderArtists = (artists: Artist[]): string => {
     }
   }
   return result;
+};
+
+export const secToMMSS = (sec: number) => {
+  const trimmedSeconds = Math.trunc(sec);
+
+  const hours: string | number = Math.floor(trimmedSeconds / 3600);
+  let minutes: string | number = Math.floor((trimmedSeconds - (hours * 3600)) / 60);
+  let seconds: string | number = trimmedSeconds - (hours * 3600) - (minutes * 60);
+
+  // if (hours < 10) { hours = `0${hours}`; }
+  if (minutes < 10) { minutes = `0${minutes}`; }
+  if (seconds < 10) { seconds = `0${seconds}`; }
+
+  return `${minutes}:${seconds}`;
 };
