@@ -1,105 +1,158 @@
-import { memo } from 'react';
-
 import { redirector } from '../../helpers/redirectors';
 import usePlayer from '../../hooks/usePlayer';
-import AppSkeleton from '../AppSkeleton/AppSkeleton';
+import useResponsive from '../../hooks/useResponsive';
 import ImageWithSkeleton from '../ImageWithSkeleton/ImageWithSkeleton';
+import TextWithSkeleton from '../TextWithSkeleton/TextWithSkeleton';
 import * as S from './AudioPlayerElements';
 
 interface AudioPlayerProps {
+  trackTitle: string;
+  artists: string;
   imageUrl: string | undefined | 'pending';
   audioUrl: string | null | 'pending';
   externalUrl: string;
 };
 
-interface ControlsProps {
-  status:
-  | 'pending'
-  | 'playing'
-  | 'paused';
-  onPlay: () => void;
-  onPause: () => void;
-  onReset: () => void;
-  onRedirect: () => void;
-};
+const AudioPlayer = (props: AudioPlayerProps) => {
+  const {
+    trackTitle,
+    artists,
+    audioUrl,
+    externalUrl,
+    imageUrl
+  } = props;
 
-const areEqual = (prevProps: ControlsProps, nextProps: ControlsProps) => (
-  !!(prevProps.status === nextProps.status)
-);
+  const player = usePlayer(audioUrl, trackTitle, artists, imageUrl);
 
-const Controls = memo(({ status, onPlay, onPause, onReset, onRedirect }: ControlsProps) => (
-  <>
-    <S.SpotifyIcon
-      onClick={onRedirect}
-      data-testid="spotifyLink"
-    />
-    {
-      (status === 'playing')
-        ? (
-          <S.PauseIcon
-            onClick={onPause}
-            data-testid="pauseButton"
-          />
-        )
-        : (
-          <S.PlayIcon
-            onClick={onPlay}
-            data-testid="playButton"
-          />
-        )
-    }
-    <S.ResetIcon
-      onClick={onReset}
-      data-testid="resetButton"
-    />
-  </>
-), areEqual);
+  const {
+    currentTime,
+    trackPercentage,
+    volumePercentage,
+    duration,
+    loading,
+    status,
+    muted,
+    control,
+    updateTimeManually,
+    updateVolume,
+    muteAudio
+  } = player;
 
-const AudioPlayer = ({ imageUrl, audioUrl, externalUrl }: AudioPlayerProps) => {
-  const { percentage, status, control } = usePlayer(audioUrl);
+  const { size } = useResponsive();
 
-  const renderSwitch = () => {
-    switch (audioUrl) {
-      case 'pending':
-        return (
-          <AppSkeleton
-            customStyles={S.controlsSkeleton}
-          />
-        );
-
-      case null:
-        return (
-          <S.ErrorMessage>
-            Vista previa no disponible
-          </S.ErrorMessage>
-        );
-
-      default:
-        return (
-          <>
-            <Controls
-              status={status}
-              onPlay={() => control('play')}
-              onPause={() => control('pause')}
-              onReset={() => control('reset')}
-              onRedirect={() => redirector(externalUrl)}
-            />
-            <S.ProgressBar
-              width={percentage}
-              data-testid="progressBar"
-            />
-          </>
-        );
-    };
+  if (!audioUrl) {
+    return (
+      <S.ErrorContainer>
+        <S.ErrorMessage>
+          Vista previa no disponible
+        </S.ErrorMessage>
+      </S.ErrorContainer>
+    );
   };
 
   return (
     <S.Container>
-      <ImageWithSkeleton
-        url={imageUrl}
-        customStyles={S.trackImageStyles}
+      <S.Wrapper
+        gridPosition="pb"
+      >
+        <S.ProgressBar
+          value={trackPercentage}
+          onChange={(e) => updateTimeManually(e.target.value)}
+          disabled={loading}
+        />
+      </S.Wrapper>
+      {
+        (size === 'large') && (
+          <>
+            <ImageWithSkeleton
+              url={imageUrl}
+              customStyles={S.trackImageStyles}
+            />
+            <TextWithSkeleton
+              text={trackTitle}
+              loading={!trackTitle}
+              customTextStyles={S.titleTextStyles}
+              customContainerStyles={S.titleContainerStyles}
+            />
+            <TextWithSkeleton
+              text={artists}
+              loading={!artists}
+              customTextStyles={S.artistsTextStyles}
+              customContainerStyles={S.artistsContainerStyles}
+            />
+          </>
+        )
+      }
+      <S.SpotifyIcon
+        onClick={() => redirector(externalUrl)}
+        disabled={loading}
+        data-testid="spotifyLink"
       />
-      {renderSwitch()}
+      {
+        (status === 'playing')
+          ? (
+            <S.PauseIcon
+              onClick={() => control('pause')}
+              disabled={loading}
+              data-testid="pauseButton"
+            />
+          )
+          : (
+            <S.PlayIcon
+              onClick={() => control('play')}
+              disabled={loading}
+              data-testid="playButton"
+            />
+          )
+      }
+      <S.ResetIcon
+        onClick={() => control('reset')}
+        disabled={loading}
+        data-testid="resetButton"
+      />
+      <TextWithSkeleton
+        text={currentTime}
+        loading={!currentTime}
+        customTextStyles={S.timeTextStyles}
+        customContainerStyles={S.currentTimeContainerStyles}
+      />
+      <TextWithSkeleton
+        text={duration}
+        loading={!duration}
+        customTextStyles={S.timeTextStyles}
+        customContainerStyles={S.durationContainerStyles}
+      />
+      {
+        (size === 'large') && (
+          <>
+            {
+              muted
+                ? (
+                  <S.MuteVolumeIcon
+                    disabled={loading}
+                    onClick={() => muteAudio(!muted)}
+                  />
+                )
+                : (
+                  <S.VolumeIcon
+                    disabled={loading}
+                    onClick={() => muteAudio(!muted)}
+                  />
+                )
+            }
+            <S.Wrapper
+              gridPosition="vb"
+              marginBottom="0rem"
+            >
+              <S.ProgressBar
+                value={muted ? 0 : volumePercentage}
+                onChange={(e) => updateVolume(e.target.value)}
+                disabled={loading}
+              />
+            </S.Wrapper>
+          </>
+        )
+      }
     </S.Container>
   );
 };
