@@ -12,37 +12,35 @@ interface ContainerProps {
 };
 
 const iconStyles = css`
-  font-size: 5vh;
+  font-size: 3rem;
   color: ${({ theme }) => theme.primaryColor};
 `;
 
 export const Container = styled.div<ContainerProps>`
   width: 100%;
   display: grid;
-  grid-template-columns: 5vh 2vw 5vh;
+  grid-column-gap: 1rem;
   justify-content: center;
   place-items: center;
-  margin-bottom: 2vw;
-  ${({ enoughContent }) => (enoughContent && `
-    position: absolute; 
-    bottom: 0;
-  `)}
+  grid-template-columns: 3rem 2.5rem 3rem;
+  grid-template-areas: 'al pi ar';
 `;
 
 export const PageIndicator = styled(Text)`
   color: ${({ theme }) => theme.secondaryColor};
   font-weight: bold;
-  grid-column: 2/3;
+  font-size: 2.5rem;
+  grid-area: pi;
 `;
 
 export const ArrowLeft = styled(MdOutlineKeyboardArrowLeft)`
   ${iconStyles}
   ${expandAnimation}
-  grid-column: 1/2;
+  grid-area: al;
 `;
 
 export const ArrowRight = styled(MdOutlineKeyboardArrowRight)`
   ${iconStyles}
   ${expandAnimation}
-  grid-column: 3/4;
+  grid-area: ar;
 `;
