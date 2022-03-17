@@ -11,9 +11,10 @@ interface ImageWithSkeletonProps {
   url: string | undefined | 'pending';
   customStyles?: CustomStyles;
   alt?: string;
+  onLoad?: (loaded: boolean) => void;
 };
 
-const ImageWithSkeleton = ({ url, customStyles, alt }: ImageWithSkeletonProps) => {
+const ImageWithSkeleton = ({ url, customStyles, alt, onLoad }: ImageWithSkeletonProps) => {
   const [imageStatus, setImageStatus] = useState({
     loaded: !url,
     error: false
@@ -27,6 +28,10 @@ const ImageWithSkeleton = ({ url, customStyles, alt }: ImageWithSkeletonProps) =
       loaded: !url
     });
   }, [url]);
+
+  useEffect(() => {
+    if (onLoad) onLoad(imageStatus.loaded);
+  }, [imageStatus.loaded]);
 
   return (
     <S.Container customStyles={customStyles}>

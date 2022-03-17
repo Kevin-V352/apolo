@@ -13,6 +13,5 @@ export const skeletonStyles = css`
 
 export const Container = styled.div<ContainerProps>`
   position: relative;
-  overflow: hidden;
   ${({ customStyles }) => customStyles}
 `;

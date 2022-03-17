@@ -1,9 +1,11 @@
 import { useParams } from 'react-router-dom';
 
 import AudioPlayer from '../../components/AudioPlayer/AudioPlayer';
+import ImageWithSkeleton from '../../components/ImageWithSkeleton/ImageWithSkeleton';
 import SlidingContainer from '../../components/SlidingContainer/SlidingContainer';
 import TextWithSkeleton from '../../components/TextWithSkeleton/TextWithSkeleton';
 import useTrackDetails from '../../hooks/useTrackDetails';
+import useUpdateDocumentTitle from '../../hooks/useUpdateDocumentTitle';
 import AlertPage from '../AlertPage/AlertPage';
 import * as S from './TrackDetailsPageElements';
 
@@ -24,6 +26,8 @@ const TrackDetailsPage = () => {
     error
   } = useTrackDetails(id!);
 
+  useUpdateDocumentTitle(`APOLO | ${title} | ${artists}`, [title, artists]);
+
   const items = [
     `Álbum: ${album}`,
     `Artistas: ${artists}`,
@@ -42,10 +46,16 @@ const TrackDetailsPage = () => {
 
   return (
     <S.Container>
+      <ImageWithSkeleton
+        url={image}
+        customStyles={S.trackImageStyles}
+      />
       <AudioPlayer
-        imageUrl={image}
+        trackTitle={title}
+        artists={artists}
         audioUrl={audioUrl}
         externalUrl={externalUrl}
+        imageUrl={image}
       />
       <TextWithSkeleton
         text={title}
@@ -53,6 +63,11 @@ const TrackDetailsPage = () => {
         customContainerStyles={S.titleContainerStyles}
         customTextStyles={S.titleTextStyles}
       />
+      {
+        !loading
+          ? <S.SeparatorLine />
+          : <div />
+      }
       {
         items.map((text) => (
           <TextWithSkeleton

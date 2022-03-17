@@ -1,81 +1,163 @@
 /* eslint-disable arrow-body-style */
 /* eslint-disable no-shadow */
-import { useState, useRef, useEffect, useCallback } from 'react';
+import { useState, useRef, useEffect } from 'react';
+
+import { secToMMSS } from '../helpers/formatters';
 
 interface PlayerState {
-  percentage: number;
+  error: boolean,
+  loading: boolean;
+  trackPercentage: number;
+  volumePercentage: number;
+  duration: string;
+  currentTime: string;
+  muted: boolean;
   status:
   | 'pending'
   | 'playing'
   | 'paused'
 };
 
-const usePlayer = (audioUrl: string | null) => {
+const usePlayer = (
+  audioUrl: string | null,
+  title: string,
+  artists: string,
+  imageUrl: string | undefined
+) => {
   const [state, setState] = useState<PlayerState>({
-    percentage: 0,
+    error: false,
+    loading: true,
+    muted: false,
+    trackPercentage: 0,
+    volumePercentage: 100,
+    duration: '',
+    currentTime: '',
     status: 'pending'
   });
 
+  const isMounted = useRef<boolean>(true);
   const audioRef = useRef<HTMLAudioElement>();
-  const statusRef = useRef<string>('pending');
 
-  // TODO: Review implementation
-  const updateTime = useCallback(() => {
-    const { currentTime } = audioRef.current!;
-    const timePercentage = Math.round((currentTime * 100) / 30);
-    setState((state) => ({ ...state, percentage: timePercentage }));
-  }, []);
+  const updateTime = () => {
+    if (!audioRef.current || !isMounted.current) return;
 
-  const control = useCallback(async (action: 'play' | 'pause' | 'reset') => {
+    const { currentTime } = audioRef.current;
+    const timePercentage = ((currentTime * 100) / 30);
+    setState((state) => ({
+      ...state,
+      trackPercentage: timePercentage,
+      currentTime: secToMMSS(currentTime)
+    }));
+  };
+
+  const updateTimeManually = (position: string) => {
+    if (!audioRef.current) return;
+
+    const parsedPosition = parseInt(position, 10);
+    const newTime = (((parsedPosition * 30) / 100));
+    const timePercentage = ((newTime * 100) / 30);
+
+    audioRef.current.currentTime = newTime;
+
+    setState((state) => ({
+      ...state,
+      trackPercentage: timePercentage,
+      currentTime: secToMMSS(newTime)
+    }));
+  };
+
+  const updateVolume = (position: string) => {
+    if (!audioRef.current) return;
+
+    const parsedPosition = parseInt(position, 10);
+    const newVolume = (parsedPosition / 100);
+    const volumePercentage = (newVolume * 100);
+
+    audioRef.current.volume = newVolume;
+
+    setState((state) => ({ ...state, volumePercentage }));
+  };
+
+  const muteAudio = (muted: boolean) => {
+    if (!audioRef.current) return;
+
+    audioRef.current.muted = muted;
+    setState((state) => ({ ...state, muted }));
+  };
+
+  const control = async (action: 'play' | 'pause' | 'reset') => {
+    if (!audioRef.current) return;
+
     switch (action) {
       case 'play':
-        await audioRef.current!.play();
-        if (statusRef.current === 'playing') break;
-
+        await audioRef.current.play();
         setState((state) => ({ ...state, status: 'playing' }));
         break;
 
       case 'pause':
-        audioRef.current!.pause();
-        if (statusRef.current !== 'playing') break;
-
+        audioRef.current.pause();
         setState((state) => ({ ...state, status: 'paused' }));
         break;
 
       case 'reset':
-        audioRef.current!.currentTime = 0;
+        audioRef.current.currentTime = 0;
         break;
 
       default:
         break;
     };
-  }, []);
+  };
 
   useEffect(() => {
     if (audioUrl !== null && audioUrl !== 'pending') {
       audioRef.current = new Audio(audioUrl);
+
+      audioRef.current.onerror = () => {
+        if (isMounted.current) setState({ ...state, error: true });
+      };
+
+      audioRef.current.onloadeddata = (e: any) => {
+        const { currentTime, duration } = e.target;
+        setState({
+          ...state,
+          loading: false,
+          currentTime: secToMMSS(currentTime),
+          duration: secToMMSS(duration)
+        });
+      };
+
       audioRef.current.addEventListener('timeupdate', updateTime);
+
       audioRef.current.onended = (e: any) => {
         e.target.currentTime = 0;
-        setState({ ...state, status: 'pending' });
+        setState((state) => ({ ...state, status: 'pending' }));
       };
+
+      navigator.mediaSession.metadata = new MediaMetadata({
+        title,
+        artist: artists,
+        artwork: [{ src: imageUrl!, sizes: '640x640', type: 'image/jpg' }]
+      });
     };
   }, [audioUrl]);
 
   useEffect(() => {
-    statusRef.current = state.status;
-  }, [state]);
-
-  useEffect(() => {
     return () => {
-      audioRef.current?.pause();
-      audioRef.current?.removeEventListener('timeupdate', updateTime);
+      isMounted.current = false;
+      if (audioRef.current) {
+        audioRef.current.pause();
+        audioRef.current.removeEventListener('timeupdate', updateTime);
+        audioRef.current.src = '';
+      }
     };
   }, []);
 
   return {
     ...state,
-    control
+    control,
+    updateTimeManually,
+    updateVolume,
+    muteAudio
   };
 };
 

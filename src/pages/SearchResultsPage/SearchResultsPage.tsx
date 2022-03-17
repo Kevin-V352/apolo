@@ -4,7 +4,10 @@ import { useParams, useNavigate } from 'react-router-dom';
 
 import Pager from '../../components/Pager/Pager';
 import TrackCard from '../../components/TrackCard/TrackCard';
+import useGhostContent from '../../hooks/useGhostContent';
 import useResultList from '../../hooks/useResultList';
+import useUpdateDocumentTitle from '../../hooks/useUpdateDocumentTitle';
+import { TrackGrid } from '../../shared/StylizedComponents';
 import AlertPage from '../AlertPage/AlertPage';
 import * as S from './SearchResultsPageElements';
 
@@ -21,7 +24,11 @@ const SearchResultsPage = () => {
 
   const formatedPage = Number(page);
 
+  useUpdateDocumentTitle(`APOLO | ${query!}`, [query!]);
+
   const { tracks, nextPage, status, error } = useResultList(query!, formatedPage);
+
+  const { ghostElements, emptySpace } = useGhostContent(tracks.length);
 
   useEffect(() => {
     scroll();
@@ -51,7 +58,7 @@ const SearchResultsPage = () => {
 
   return (
     <S.Container>
-      <S.ResultsContainer>
+      <TrackGrid>
         {
           tracks.map(({ album, name, artists, id }) => (
             <TrackCard
@@ -63,7 +70,10 @@ const SearchResultsPage = () => {
             />
           ))
         }
-      </S.ResultsContainer>
+        {
+          (emptySpace) && ghostElements.map((ghostValue) => <div key={ghostValue} />)
+        }
+      </TrackGrid>
       <Pager
         numberOfResults={tracks.length}
         nextPage={nextPage}

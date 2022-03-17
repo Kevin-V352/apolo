@@ -10,8 +10,13 @@ export const lyricsSkeleton = css`
 `;
 
 export const Container = styled.div<ContainerProps>`
-  width: 38vw;
-  height: 42vh;
+  width: 100%;
+  height: 100%;
   align-self: flex-start;
+  font-size: var(--secondary-font-size);
   overflow-y: ${({ loadedText }) => (loadedText ? 'scroll' : 'auto')};
+  
+  @media screen and (orientation: landscape) {
+    grid-area: le;
+  };
 `;
