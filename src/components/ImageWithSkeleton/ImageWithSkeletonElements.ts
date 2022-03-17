@@ -20,11 +20,11 @@ export const skeletonStyles = css`
 
 export const Container = styled.div<ContainerProps>`
   position: relative;
-  background-color: ${({ theme }) => theme.tertiaryColor};
   line-height: 1;
   display: flex;
   justify-content: center;
   align-items: center;
+  background-color: ${({ theme }) => theme.tertiaryColor};
   ${({ customStyles }) => customStyles}
 `;
 
@@ -32,6 +32,6 @@ export const Image = styled.img<ImageProps>`
   height: 100%;
   width: 100%;
   transition: 0.4s;
-  object-fit: stretch;
+  object-fit: fill;
   opacity: ${({ imageLoaded }) => (imageLoaded ? '1' : '0')};
 `;
