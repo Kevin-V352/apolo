@@ -21,6 +21,8 @@ module.exports = {
     KeyboardEvent: true,
     HTMLAnchorElement: true,
     HTMLFormElement: true,
+    MediaMetadata: true,
+    NodeJS: true,
     jest: true
   },
   parser: '@typescript-eslint/parser',
@@ -31,6 +33,7 @@ module.exports = {
   },
   plugins: ['react', '@typescript-eslint', 'import', 'cypress'],
   rules: {
+    'no-plusplus': RULES.OFF,
     'no-extra-semi': RULES.OFF,
     'global-require': RULES.OFF,
     'linebreak-style': RULES.OFF,
