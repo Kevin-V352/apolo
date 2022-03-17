@@ -10,7 +10,7 @@ const TracksRouter = () => (
     <NavBar />
     <Routes>
       <Route path="/" element={<HomePage />} />
-      <Route path="/search/:query/:page" element={<SearchResultsPage />} />
+      <Route path="search/:query/:page" element={<SearchResultsPage />} />
       <Route path="track-details/:id" element={<TrackDetailsPage />} />
       <Route path="*" element={<Navigate to="/" />} />
     </Routes>
