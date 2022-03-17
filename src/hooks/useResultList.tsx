@@ -24,15 +24,13 @@ const useResultList = (searchTerm: string, pageNumber: number) => {
 
   const getTrackList = async () => {
     try {
-      const formatedQuery: string = (searchTerm).replace(/%20/g, '+');
-
       const { data: { tracks: { items, next } } } = await spotifyAPI
         .get<TracksPaginatedResponse>('/search', {
           params: {
-            query: formatedQuery,
-            limit: '20',
+            query: searchTerm,
+            limit: '30',
             type: 'track',
-            offset: ((pageNumber - 1) * 20)
+            offset: ((pageNumber - 1) * 30)
           }
         });
 
