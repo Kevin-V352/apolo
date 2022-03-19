@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 
-// eslint-disable-next-line import/prefer-default-export
+import { Text } from '../../shared/StylizedComponents';
+
 export const Container = styled.div`
   height: 100vh;
   width: 100vw;
@@ -8,4 +9,8 @@ export const Container = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
+`;
+
+export const AlertMessage = styled(Text)`
+  text-align: center;
 `;
