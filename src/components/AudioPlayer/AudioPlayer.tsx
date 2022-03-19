@@ -1,3 +1,7 @@
+import { useContext, useEffect } from 'react';
+
+import { SearchContext } from '../../contexts/authContext/SearchContext';
+import { lockDimensions, unlockDimensions } from '../../helpers/dimensionModifiers';
 import { redirector } from '../../helpers/redirectors';
 import usePlayer from '../../hooks/usePlayer';
 import useResponsive from '../../hooks/useResponsive';
@@ -5,7 +9,7 @@ import ImageWithSkeleton from '../ImageWithSkeleton/ImageWithSkeleton';
 import TextWithSkeleton from '../TextWithSkeleton/TextWithSkeleton';
 import * as S from './AudioPlayerElements';
 
-interface AudioPlayerProps {
+export interface AudioPlayerProps {
   trackTitle: string;
   artists: string;
   imageUrl: string | undefined | 'pending';
@@ -38,11 +42,24 @@ const AudioPlayer = (props: AudioPlayerProps) => {
     muteAudio
   } = player;
 
-  const { size } = useResponsive();
+  const { searchStatus: { openKeyboard } } = useContext(SearchContext);
+
+  const { size, orientation } = useResponsive();
+
+  const showAllItems: boolean = (size === 'large' && orientation === 'landscape');
+
+  const hidePlayer: boolean = (window.innerWidth <= 1024 && openKeyboard);
+
+  useEffect(() => {
+    if (window.innerWidth <= 1024) {
+      if (openKeyboard) lockDimensions();
+      else unlockDimensions();
+    };
+  }, [openKeyboard]);
 
   if (!audioUrl) {
     return (
-      <S.ErrorContainer>
+      <S.ErrorContainer $hide={hidePlayer}>
         <S.ErrorMessage>
           Vista previa no disponible
         </S.ErrorMessage>
@@ -51,7 +68,7 @@ const AudioPlayer = (props: AudioPlayerProps) => {
   };
 
   return (
-    <S.Container>
+    <S.Container $hide={hidePlayer}>
       <S.Wrapper
         gridPosition="pb"
       >
@@ -62,7 +79,7 @@ const AudioPlayer = (props: AudioPlayerProps) => {
         />
       </S.Wrapper>
       {
-        (size === 'large') && (
+        showAllItems && (
           <>
             <ImageWithSkeleton
               url={imageUrl}
@@ -123,7 +140,7 @@ const AudioPlayer = (props: AudioPlayerProps) => {
         customContainerStyles={S.durationContainerStyles}
       />
       {
-        (size === 'large') && (
+        showAllItems && (
           <>
             {
               muted

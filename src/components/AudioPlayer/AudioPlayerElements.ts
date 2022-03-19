@@ -7,6 +7,10 @@ import { lg, xl, maxWidth } from '../../shared/breakpoints';
 import { ellipsisTextStyles, pressAnimation } from '../../shared/sharedStyles';
 import { Text } from '../../shared/StylizedComponents';
 
+interface ContainerStylesProps {
+  $hide: boolean;
+};
+
 interface WrapperProps {
   gridPosition: 'pb' | 'vb'
   marginBottom?: string;
@@ -43,7 +47,7 @@ const iconStyles = css<IconProps>`
   `)}
 `;
 
-const containerStyles = css`
+const containerStyles = css<ContainerStylesProps>`
   width: 100vw;
   position: fixed;
   bottom: 0;
@@ -52,6 +56,7 @@ const containerStyles = css`
   justify-content: center;
   align-items: center;
   background-color: ${({ theme }) => theme.tertiaryColor};
+  bottom: ${({ $hide }) => ($hide ? '-9.6rem' : '0')};
 `;
 
 export const timeContainerStyles = css`
@@ -138,7 +143,7 @@ export const Container = styled.div`
 `;
 
 export const ErrorContainer = styled.div`
-  height: 9.2rem;
+  height: 9.6rem;
   display: flex;
   ${containerStyles}  
 `;

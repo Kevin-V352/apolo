@@ -20,7 +20,7 @@ const useResultList = (searchTerm: string, pageNumber: number) => {
     error: null
   });
 
-  const { setSearching } = useContext(SearchContext);
+  const { setSearchStatus } = useContext(SearchContext);
 
   const getTrackList = async () => {
     try {
@@ -41,7 +41,7 @@ const useResultList = (searchTerm: string, pageNumber: number) => {
         status: 'finalized'
       });
 
-      setSearching(false);
+      setSearchStatus((searchStatus) => ({ ...searchStatus, searching: false }));
     } catch (error) {
       setState({
         ...state,

@@ -12,17 +12,18 @@ import * as S from './SearchBarElements';
 const onEnter = (e: any) => {
   if (e.key === 'Enter') {
     e.target.blur();
-  }
+  };
 };
 
 const SearchBar = () => {
   const [textValue, setTextValue] = useState<string>('');
 
-  const { searching, setSearching } = useContext(SearchContext);
+  const {
+    searchStatus: { searching },
+    setSearchStatus
+  } = useContext(SearchContext);
 
   const previousSearch = useRef<string>('');
-
-  const inputRef = useRef<HTMLInputElement>(null);
 
   const { secondaryColor } = useTheme();
 
@@ -32,8 +33,12 @@ const SearchBar = () => {
 
   const sizeIcon = '3rem';
 
+  const controlAudioPlayerVisibility = (show: boolean) => {
+    setSearchStatus((searchStatus) => ({ ...searchStatus, openKeyboard: show }));
+  };
+
   useEffect(() => {
-    const formattedQuery = encodeURIComponent(debouncedValue.toLowerCase());
+    const formattedQuery = (debouncedValue.replace(/[^A-Za-z0-9]/g, ' '));
 
     if (
       debouncedValue.length !== 0
@@ -41,7 +46,7 @@ const SearchBar = () => {
     ) {
       previousSearch.current = formattedQuery;
       navigate(`search/${formattedQuery}/1`);
-      setSearching(true);
+      setSearchStatus((searchStatus) => ({ ...searchStatus, searching: true }));
     };
   }, [debouncedValue]);
 
@@ -50,12 +55,14 @@ const SearchBar = () => {
       sizeIcons={sizeIcon}
     >
       <S.Input
-        onChange={({ target: { value } }) => setTextValue(value)}
+        type="text"
+        spellCheck="false"
         autoCorrect="false"
         data-testid="searchInput"
-        type="text"
         onKeyUp={onEnter}
-        ref={inputRef}
+        onFocus={() => controlAudioPlayerVisibility(true)}
+        onBlur={() => controlAudioPlayerVisibility(false)}
+        onChange={({ target: { value } }) => setTextValue(value)}
       />
       {
         searching
