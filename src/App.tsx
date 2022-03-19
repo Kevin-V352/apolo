@@ -6,14 +6,19 @@ import 'react-loading-skeleton/dist/skeleton.css';
 
 import { AuthProvider } from './contexts/authContext/AuthContext';
 import { SearchProvider } from './contexts/authContext/SearchContext';
+import useVisitTracking from './hooks/useVisitTracking';
 import AuthRouter from './routers/AuthRouter';
 import theme from './theme/theme';
 
-const App = () => (
-  <AppState>
-    <AuthRouter />
-  </AppState>
-);
+const App = () => {
+  useVisitTracking();
+
+  return (
+    <AppState>
+      <AuthRouter />
+    </AppState>
+  );
+};
 
 const AppState: FC = ({ children }) => (
   <ThemeProvider theme={theme}>

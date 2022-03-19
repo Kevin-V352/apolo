@@ -1,20 +1,28 @@
 /* eslint-disable react/jsx-no-constructed-context-values */
 import React, { createContext, FC, useState } from 'react';
 
-interface SearchContextProps {
+interface SearchContextState {
   searching: boolean;
-  setSearching: React.Dispatch<React.SetStateAction<boolean>>
+  openKeyboard: boolean;
+};
+
+interface SearchContextProps {
+  searchStatus: SearchContextState;
+  setSearchStatus: React.Dispatch<React.SetStateAction<SearchContextState>>
 };
 
 export const SearchContext = createContext({} as SearchContextProps);
 
 export const SearchProvider: FC = ({ children }) => {
-  const [searching, setSearching] = useState<boolean>(false);
+  const [searchStatus, setSearchStatus] = useState<SearchContextState>({
+    searching: false,
+    openKeyboard: false
+  });
 
   return (
     <SearchContext.Provider value={{
-      searching,
-      setSearching
+      searchStatus,
+      setSearchStatus
     }}
     >
       {children}
