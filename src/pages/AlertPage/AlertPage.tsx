@@ -2,7 +2,6 @@ import { AiOutlineQuestion, AiOutlineExclamation } from 'react-icons/ai';
 import { PuffLoader } from 'react-spinners';
 import { useTheme } from 'styled-components';
 
-import { Text } from '../../shared/StylizedComponents';
 import * as S from './AlertPageElements';
 
 interface AlertProps {
@@ -13,7 +12,6 @@ interface AlertProps {
 const AlertPage = ({ type, message }: AlertProps) => {
   const { secondaryColor } = useTheme();
 
-  // eslint-disable-next-line consistent-return
   const renderSwitch = () => {
     switch (type) {
       case 'load':
@@ -31,7 +29,9 @@ const AlertPage = ({ type, message }: AlertProps) => {
               size="12vh"
               color={secondaryColor}
             />
-            <Text>{message}</Text>
+            <S.AlertMessage>
+              {message}
+            </S.AlertMessage>
           </>
         );
 
@@ -42,7 +42,9 @@ const AlertPage = ({ type, message }: AlertProps) => {
               size="12vh"
               color={secondaryColor}
             />
-            <Text>{message}</Text>
+            <S.AlertMessage>
+              {message}
+            </S.AlertMessage>
           </>
         );
     }
