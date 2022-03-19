@@ -5,7 +5,8 @@ Un buscador de canciones que utiliza la [API de Spotify](https://developer.spoti
 
 ## Video de presentación
 #### **`¡IMPORTANTE!`**
-Los videos en modo ventana se reproducen en calidad baja (360p), recomiendo ponerlos en pantalla completa para verlos en 720p o bien ajustar la calidad manualmente. 
+Los videos en modo ventana se reproducen en calidad baja (360p), recomiendo ponerlos en pantalla completa para verlos en 720p o bien ajustar la calidad manualmente.
+
 [![apolo-yt](https://user-images.githubusercontent.com/67164849/159110585-ba4c5a64-1d3c-4dda-888e-a37b7156927a.gif)](https://drive.google.com/file/d/1Nc2mLAyMl-gd775y_MTAwjW5GptUgBYZ/view?usp=sharing)
 
 ## Live demo
