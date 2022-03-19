@@ -27,4 +27,4 @@ Para instalar el proyecto descargue y abra en su editor de código, o bien desde
 - **REACT_APP_CLIENT_SECRET**
 
 ## Ejecutar
-Para hacerlo utilice el comando **`npm start`**, esto ejecutara el proyecto automáticamente en su navegador predeterminado, en el siguiente enlace: http://localhost:3000/
+Para hacerlo utilice el comando **`npm start`**, esto ejecutara el proyecto automáticamente en su navegador predeterminado, en el siguiente enlace: http://localhost:3000
