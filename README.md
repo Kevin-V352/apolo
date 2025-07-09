@@ -1,31 +1,30 @@
 # APOLO
-Un buscador de canciones que utiliza la [API de Spotify](https://developer.spotify.com/documentation/web-api/) para obtener los datos de las canciones y [lyricsovh](https://lyricsovh.docs.apiary.io/#) para las letras de las mismas. La aplicación permite: ver detalles y reproducir una preview de la canción buscada, siempre que este recurso este disponible.
+This is a song search application that leverages the [Spotify API](https://developer.spotify.com/documentation/web-api/) to retrieve track information and the [Lyrics.ovh API](https://lyricsovh.docs.apiary.io/#) to display song lyrics. Users can view song details and listen to a short preview of the selected track, if available.
 
 ![2](https://user-images.githubusercontent.com/67164849/159109389-5c004a39-531b-4e5a-99f2-ab1dcc954e1e.gif)
 
-## Video de presentación
-#### **`¡IMPORTANTE!`**
-Los videos en modo ventana se reproducen en calidad baja (360p), recomiendo ponerlos en pantalla completa para verlos en 720p o bien ajustar la calidad manualmente.
+## Demo Video
+#### **`IMPORTANT!`**
+Videos played in windowed mode default to low quality (360p). For better viewing, it's recommended to switch to full screen to watch in 720p, or manually adjust the quality settings.
 
 [![apolo-yt](https://user-images.githubusercontent.com/67164849/159110585-ba4c5a64-1d3c-4dda-888e-a37b7156927a.gif)](https://drive.google.com/file/d/1Nc2mLAyMl-gd775y_MTAwjW5GptUgBYZ/view?usp=sharing)
 
 ## Live demo
+[Let's go! 🌐](https://apolo-kv357.netlify.app) 
 
-https://apolo-kv357.netlify.app
+## Technologies
+- [X] ![10](https://github.com/user-attachments/assets/66ce32bc-34a8-4ffa-b747-f3ad8cc4a87d) TypeScript
+- [X] ![11](https://github.com/user-attachments/assets/ac9032ba-8bfd-4706-98d7-290f63729219) React.JS
+- [X] ![12](https://github.com/user-attachments/assets/72dfb334-ec2b-4f09-9f8f-d75ad3a733fd) Styled Components
+- [X] ![13](https://github.com/user-attachments/assets/30e4c7d7-b021-45d2-9c3c-b2180eea323e) Cypress
+- [X] ![14](https://github.com/user-attachments/assets/88c97ef9-2425-483e-bdca-01238e22408a) React Testing Library
 
-## Tecnologías
-- [X] ![10](https://i.ibb.co/hXmqN5t/typescript.png) TypeScript
-- [X] ![11](https://i.ibb.co/7Yb8sZf/react.png) React.JS
-- [X] ![12](https://i.ibb.co/fNzydrw/sc.png) Styled Components
-- [X] ![13](https://i.ibb.co/mbqkrtd/cypress.png) Cypress
-- [X] ![14](https://i.ibb.co/nMczFTQ/react-testing-library.png) React Testing Library
+## Getting Started
+To install the project, download it and open it in your code editor, or navigate to the project folder using your preferred terminal. Then, run the command **`npm i`** to install all the necessary dependencies to run the project.
 
-## Instalación
-Para instalar el proyecto descargue y abra en su editor de código, o bien desde la consola de preferencia y ejecute el comando **`npm i`**. Esto comenzara a instalar todas las dependencias necesarias para correr el proyecto.
-
-**NOTA:** Necesitará obtener las credenciales de [Spotify](https://developer.spotify.com/documentation/web-api/) y asignar las claves en un archivo **`.env`** a nivel raiz del proyecto con los siguientes nombres:
+**NOTE:** You will need to obtain credentials from [Spotify](https://developer.spotify.com/documentation/web-api/) and create a **`.env`** file in the root directory of the project with the following variable names:
 - **REACT_APP_CLIENT_ID**
 - **REACT_APP_CLIENT_SECRET**
 
-## Ejecutar
-Para hacerlo utilice el comando **`npm start`**, esto ejecutara el proyecto automáticamente en su navegador predeterminado, en el siguiente enlace: http://localhost:3000
+## Running the Project
+To run the project, use the command **`npm start`**. This will automatically launch the application in your default browser at the following address: http://localhost:3000
